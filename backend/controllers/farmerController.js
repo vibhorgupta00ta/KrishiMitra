@@ -14,6 +14,8 @@ const getFarmerProfile = async (req, res, next) => {
                 _id: user.id,
                 name: user.name,
                 email: user.email,
+                contactNumber: user.contactNumber,
+                profilePic: user.profilePic,
                 role: user.role,
                 farmDetails: farm || null,
             });
@@ -38,19 +40,26 @@ const updateFarmerProfile = async (req, res, next) => {
             if (req.body.password) {
                 user.password = req.body.password;
             }
+            if (req.body.contactNumber !== undefined) {
+                user.contactNumber = req.body.contactNumber;
+            }
+            if (req.body.profilePic !== undefined) {
+                user.profilePic = req.body.profilePic;
+            }
 
             const updatedUser = await user.save();
 
             // Update or create farm details
-            const { farmSize, soilType, state, district } = req.body;
+            const { farmSize, soilType, state, district, plantedCrops } = req.body;
             let farm = await Farm.findOne({ userId: req.user.id });
 
-            if (farmSize || soilType || state || district) {
+            if (farmSize || soilType || state || district || plantedCrops !== undefined) {
                 if (farm) {
                     farm.farmSize = farmSize || farm.farmSize;
                     farm.soilType = soilType || farm.soilType;
                     farm.state = state || farm.state;
                     farm.district = district || farm.district;
+                    if (plantedCrops !== undefined) farm.plantedCrops = plantedCrops;
                     await farm.save();
                 } else {
                     farm = await Farm.create({
@@ -59,6 +68,7 @@ const updateFarmerProfile = async (req, res, next) => {
                         soilType,
                         state,
                         district,
+                        plantedCrops: plantedCrops || [],
                     });
                 }
             }
@@ -67,6 +77,8 @@ const updateFarmerProfile = async (req, res, next) => {
                 _id: updatedUser.id,
                 name: updatedUser.name,
                 email: updatedUser.email,
+                contactNumber: updatedUser.contactNumber,
+                profilePic: updatedUser.profilePic,
                 role: updatedUser.role,
                 farmDetails: farm || null,
             });

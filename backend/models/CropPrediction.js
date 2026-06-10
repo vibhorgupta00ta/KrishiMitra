@@ -9,31 +9,31 @@ const cropPredictionSchema = new mongoose.Schema(
         },
         nitrogen: {
             type: Number,
-            required: true,
+            required: false,
         },
         phosphorus: {
             type: Number,
-            required: true,
+            required: false,
         },
         potassium: {
             type: Number,
-            required: true,
+            required: false,
         },
         temperature: {
             type: Number,
-            required: true,
+            required: false,
         },
         humidity: {
             type: Number,
-            required: true,
+            required: false,
         },
         ph: {
             type: Number,
-            required: true,
+            required: false,
         },
         rainfall: {
             type: Number,
-            required: true,
+            required: false,
         },
         predictedCrop: {
             type: String,

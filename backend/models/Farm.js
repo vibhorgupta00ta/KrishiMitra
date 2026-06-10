@@ -23,6 +23,10 @@ const farmSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please add the district"],
         },
+        plantedCrops: {
+            type: [String],
+            default: [],
+        },
     },
     {
         timestamps: true,
